@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
 
-require './hand_of_doom'
+require './code/hand_of_doom'
 
-HandOfDoom.new.start
+HandOfDoom.new('data/world_map.yaml').start

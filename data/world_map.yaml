@@ -1,3 +1,5 @@
+locations:
+
 - name: "the Bandit Camp"
   region: Highlands
   traits: [Outside, Settlement]
@@ -261,3 +263,50 @@
   traits: [Inside, Lake Port]
   exits:
     w: "the Catacombs"
+
+territories:
+
+- name: "Slaver's Pass"
+  region: Highlands
+  traits: [Outside]
+  threat: [Danger, 4]
+
+- name: "the Foothills"
+  region: Highlands
+  traits: [Outside]
+  threat: [Danger, 2]
+
+- name: "the Fields"
+  region: Lowlands
+  traits: [Outside, Law]
+  threat: [Danger, 2]
+
+- name: "the Witchwood"
+  region: Lowlands
+  traits: [Outside, Woodland]
+  threat: [Danger, 4]
+
+- name: "the Burning Lakes"
+  region: Badlands
+  traits: [Outside, Perilous]
+  threat: [Danger, 4]
+
+- name: "the Wasteland"
+  region: Badlands
+  traits: [Outside]
+  threat: [Danger, 3]
+
+- name: "the Blasted Heath"
+  region: Badlands
+  traits: [Outside, Perilous]
+  threat: [Danger, 4]
+
+- name: "the Rotting Swamp"
+  region: Wetlands
+  traits: [Outside]
+  threat: [Danger, 4]
+
+- name: "Tomb Lake"
+  region: Wetlands
+  traits: [Outside, Lake Port]
+  threat: [Danger, 3]
