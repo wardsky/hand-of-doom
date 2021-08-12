@@ -1,0 +1,263 @@
+- name: "the Bandit Camp"
+  region: Highlands
+  traits: [Outside, Settlement]
+  threat: [Danger, 4]
+  exits:
+    nw: ["Slaver's Pass", path, 0]
+    sw: ["the Foothills", path, 1]
+    se: ["the Wasteland", path, 2]
+
+- name: "Pigskin Port"
+  region: Highlands
+  traits: [Inside, Settlement, River Port]
+  threat: [Town, 3]
+  exits:
+    se: ["the Foothills", road, 2]
+    w: ["the Foothills", road, 0]
+    e: ["the Foothills", path, 1]
+  downriver:
+    - "the East Bridge"
+    - "the North Bridge"
+    - "the Watchtower"
+
+- name: "the Watchtower"
+  region: Highlands
+  traits: [Inside, Settlement, River Port]
+  threat: [Danger, 3]
+  exits:
+    s: ["the Witchwood", road, 0]
+    w: ["the Foothills", road, 2]
+    e: ["the Wasteland", road, 0]
+  downriver:
+    - "Gutfish Ford"
+
+- name: "the Temple of Madness"
+  region: Highlands
+  traits: [Inside, Metaphysical, Perilous]
+  threat: [Danger, 5]
+  exits:
+    w: "the Tunnel of Terror"
+    e: ["Slaver's Pass", path, 0]
+
+- name: "the Tunnel of Terror"
+  region: Highlands
+  traits: [Inside, River Port, Metaphysical, Perilous]
+  threat: [Danger, 4]
+  exits:
+    sw: ["the Foothills", path, 0]
+    e: "the Temple of Madness"
+  downriver:
+    - "Pigskin Port"
+
+- name: "the Windmill"
+  region: Highlands
+  territory: "the Foothills"
+  traits: [Inside]
+  exits:
+    n: ["the Foothills", path, 0]
+    s: ["the Foothills", road, 1]
+    e: ["the Foothills", road, 0]
+
+- name: "the North Bridge"
+  region: Highlands
+  territory: "the Foothills"
+  traits: [Outside, River Port]
+  exits:
+    n: ["the Foothills", road, 1]
+    s: ["the Fields", road, 0]
+
+- name: "Brüttelburg"
+  region: Lowlands
+  traits: [Inside, Settlement, Law]
+  threat: [Town, 5]
+  exits:
+    s: ["the Fields", road, 2]
+    w: ["the Fields", road, 0]
+    e: ["the Fields", road, 1]
+
+- name: "the Holy Order"
+  region: Lowlands
+  traits: [Inside, Settlement, Law]
+  threat: [Town, 3]
+  exits:
+    n: ["the Fields", road, 3]
+    s: ["the Fields", road, 7]
+
+- name: "the Hunt Lodge"
+  region: Lowlands
+  traits: [Inside, Woodland, Settlement, Law]
+  threat: [Town, 2]
+  exits:
+    nw: ["the Witchwood", path, 2]
+    ne: ["the Witchwood", path, 3]
+    se: ["the Rotting Swamp", path, 3]
+
+- name: "the Graveyard"
+  region: Lowlands
+  traits: [Inside]
+  threat: [Danger, 4]
+  exits:
+    n: ["the Fields", road, 5]
+    s: "the Catacombs"
+    w: ["the Fields", road, 7]
+    e: ["the Fields", road, 8]
+
+- name: "the Catacombs"
+  region: Lowlands
+  traits: [Inside]
+  threat: [Danger, 5]
+  exits:
+    n: "the Graveyard"
+    e: "Ghostgate"
+
+- name: "the Crossroads"
+  region: Lowlands
+  territory: the Fields
+  traits: [Outside, Law]
+  exits:
+    n: ["the Fields", road, 2]
+    s: ["the Fields", road, 5]
+    w: ["the Fields", road, 3]
+    e: ["the Fields", road, 4]
+
+- name: "Witch Hill"
+  region: Lowlands
+  traits: [Outside, Woodland]
+  threat: [Danger, 5]
+  exits:
+    nw: ["the Witchwood", road, 0]
+    ne: ["the Witchwood", path, 0]
+    s: ["the Witchwood", path, 1]
+    sw: ["the Witchwood", road, 1]
+
+- name: "the East Bridge"
+  region: Lowlands
+  territory: the Witchwood
+  traits: [Outside, Woodland, River Port, Law]
+  exits:
+    nw: ["the Fields", road, 1]
+    sw: ["the Fields", road, 4]
+    se: ["the Witchwood", path, 2]
+    e: ["the Witchwood", road, 1]
+  downriver:
+    - "Dusk Falls"
+    - "the Fishmonger Camp"
+
+- name: "Hag's Fork"
+  region: Lowlands
+  territory: the Witchwood
+  traits: [Outside, Woodland]
+  exits:
+    s: ["the Witchwood", path, 3]
+    se: ["the Rotting Swamp", path, 1]
+    w: ["the Witchwood", path, 1]
+    e: ["the Rotting Swamp", path, 0]
+
+- name: "the Goblin Fortress"
+  region: Badlands
+  traits: [Inside, Settlement]
+  threat: [Danger, 5]
+  exits:
+    nw: ["the Wasteland", path, 1]
+    s: ["the Burning Lakes", path, 0]
+    sw: ["the Wasteland", road, 4]
+    w: ["the Wasteland", path, 3]
+
+- name: "Crystal Crater"
+  region: Badlands
+  territory: "the Burning Lakes"
+  traits: [Outside, River Port, Perilous]
+  exits:
+    n: ["the Burning Lakes", path, 0]
+    s: ["the Burning Lakes", path, 2]
+
+- name: "Last Chance"
+  region: Badlands
+  territory: "the Wasteland"
+  traits: [Inside]
+  exits:
+    n: ["the Wasteland", path, 0]
+    sw: ["the Wasteland", road, 0]
+    w: ["the Wasteland", path, 2]
+    e: ["the Wasteland", path, 3]
+
+- name: "Skull Bridge"
+  region: Badlands
+  traits: [Inside]
+  threat: [Danger, 4]
+  exits:
+    s: ["the Wasteland", path, 0]
+    se: ["the Wasteland", path, 1]
+    e: ["the Blasted Heath", path, 2]
+
+- name: "the Hell Pit"
+  region: Badlands
+  traits: [Outside, Perilous]
+  threat: [Danger, 5]
+  exits:
+    w: ["the Blasted Heath", path, 2]
+
+- name: "Gutfish Ford"
+  region: Wetlands
+  traits: [Outside, Settlement, River Port]
+  threat: [Town, 2]
+  exits:
+    n: ["the Wasteland", road, 4]
+    s: ["the Burning Lakes", path, 1]
+    w: ["the Witchwood", path, 0]
+  downriver:
+    - "the Crystal Crater"
+
+- name: "the Stone Circle"
+  region: Wetlands
+  traits: [Outside, Settlement]
+  threat: [Town, 2]
+  exits:
+    n: ["the Rotting Swamp", path, 2]
+    nw: ["the Rotting Swamp", path, 1]
+    s: ["the Rotting Swamp", path, 4]
+
+- name: "the Fishmonger Camp"
+  region: Wetlands
+  traits: [Inside, Settlement, Lake Port]
+  threat: [Danger, 2]
+  exits:
+    w: ["the Fields", road, 8]
+
+- name: "the Black Tree"
+  region: Wetlands
+  traits: [Outside, Woodland]
+  threat: [Danger, 5]
+  exits:
+    nw: ["the Rotting Swamp", path, 3]
+    ne: ["the Rotting Swamp", path, 4]
+    w: ["the Rotting Swamp", path, 5]
+
+- name: "the Sunken Village"
+  region: Wetlands
+  traits: [Inside]
+  threat: [Danger, 4]
+  exits:
+    n: ["the Burning Lakes", path, 2]
+    nw: ["the Burning Lakes", path, 1]
+    s: ["the Rotting Swamp", path, 2]
+    w: ["the Rotting Swamp", path, 0]
+
+- name: "Tower Island"
+  region: Wetlands
+  traits: [Inside, Lake Port]
+  threat: [Danger, 4]
+
+- name: "Dusk Falls"
+  region: Wetlands
+  territory: Tomb Lake
+  traits: [Outside, Lake Port]
+  exits:
+    se: ["the Rotting Swamp", path, 5]
+
+- name: "Ghostgate"
+  region: Wetlands
+  territory: Tomb Lake
+  traits: [Inside, Lake Port]
+  exits:
+    w: "the Catacombs"

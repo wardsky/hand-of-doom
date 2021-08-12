@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
 
-require './my_game'
+require './hand_of_doom'
 
-MyGame.new.start
+HandOfDoom.new.start
