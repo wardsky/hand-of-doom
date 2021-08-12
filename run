@@ -1,28 +1,5 @@
 #!/usr/bin/ruby
 
-require './commands'
+require './my_game'
 
-statevars = {}
-
-loop do
-
-  print '> '
-
-  begin
-    s = gets
-  rescue Interrupt
-    # User pressed Ctrl+C
-    puts
-    next
-  end
-
-  exit if s.nil?  # User pressed Ctrl+D
-
-  (cmd, *args) = s.strip.split
-
-  if Commands.respond_to? cmd
-    Commands.send(cmd, args, statevars)
-  else
-    puts 'What?'
-  end
-end
+MyGame.new.start
