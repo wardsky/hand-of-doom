@@ -2,4 +2,4 @@
 
 require './code/hand_of_doom'
 
-HandOfDoom.new('data/world_map.yaml').start
+HandOfDoom.new('savefile.yaml').start

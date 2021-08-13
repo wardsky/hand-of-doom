@@ -1,7 +1,13 @@
 class Game
 
-  def initialize
+  def initialize(savefile)
     @commands = {}
+    @savefile = savefile
+    @statevars = begin
+      YAML.load_file(savefile)
+    rescue Errno::ENOENT
+      {}
+    end
 
     command 'quit', 'q' do
       puts 'Bye.'
@@ -29,7 +35,10 @@ class Game
       next unless name
 
       if @commands[name]
-        @commands[name].call *args
+        statevars_updated = @commands[name].call *args
+        if statevars_updated
+          File.write(@savefile, YAML.dump(@statevars))
+        end
       else
         puts 'What?'
       end
