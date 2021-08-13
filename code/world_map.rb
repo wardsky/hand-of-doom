@@ -13,8 +13,27 @@ class WorldMap
     'e'  => { name: 'east', opposite: 'w' },
   }
 
-  class LocationSpace
-    attr_reader :name, :region, :territory, :threat, :exits
+  class Space
+
+    def method_missing(m)
+      if m.end_with? '?'
+        return self.traits.any? { |trait| "#{trait.downcase.gsub(' ', '_')}?" == m.to_s }
+      else
+        super
+      end
+    end
+
+    def respond_to?(m)
+      if m.end_with? '?'
+        true
+      else
+        super
+      end
+    end
+  end
+
+  class LocationSpace < Space
+    attr_reader :name, :region, :traits, :territory, :threat, :exits, :downriver
 
     def link(spaces, territories, data)
       @name = data['name']
@@ -29,6 +48,7 @@ class WorldMap
           @exits[dir] = spaces[location_name]
         end
       end
+      @downriver = data['downriver']
     end
 
     def threat
@@ -44,7 +64,7 @@ class WorldMap
     end
   end
 
-  class ConnectionSpace
+  class ConnectionSpace < Space
     attr_reader :territory, :exits
 
     def link(locations, territories, designator)
@@ -69,20 +89,28 @@ class WorldMap
     end
 
     def traits
-      @territory.traits
+      @territory.traits + [@type.capitalize]
     end
 
     def threat
       @territory.threat
     end
 
-    def name_relative_to(location)
-      other_location = case location
+    def downriver
+      []
+    end
+
+    def destination_relative_to(location)
+      case location
       when @exits.values.first
         @exits.values.last
       when @exits.values.last
         @exits.values.first
       end
+    end
+
+    def name_relative_to(location)
+      other_location = destination_relative_to(location)
       "the #{@type} to #{other_location.name}" if other_location
     end
 
