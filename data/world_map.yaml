@@ -3,7 +3,7 @@ locations:
 - name: "the Bandit Camp"
   region: Highlands
   traits: [Outside, Settlement]
-  threat: [Danger, 4]
+  danger_level: 4
   exits:
     nw: ["Slaver's Pass", path, 0]
     sw: ["the Foothills", path, 1]
@@ -12,7 +12,7 @@ locations:
 - name: "Pigskin Port"
   region: Highlands
   traits: [Inside, Settlement, River Port]
-  threat: [Town, 3]
+  town_level: 3
   exits:
     se: ["the Foothills", road, 2]
     w: ["the Foothills", road, 0]
@@ -25,7 +25,7 @@ locations:
 - name: "the Watchtower"
   region: Highlands
   traits: [Inside, Settlement, River Port]
-  threat: [Danger, 3]
+  danger_level: 3
   exits:
     s: ["the Witchwood", road, 0]
     w: ["the Foothills", road, 2]
@@ -36,7 +36,7 @@ locations:
 - name: "the Temple of Madness"
   region: Highlands
   traits: [Inside, Metaphysical, Perilous]
-  threat: [Danger, 5]
+  danger_level: 5
   exits:
     w: "the Tunnel of Terror"
     e: ["Slaver's Pass", path, 0]
@@ -44,7 +44,7 @@ locations:
 - name: "the Tunnel of Terror"
   region: Highlands
   traits: [Inside, River Port, Metaphysical, Perilous]
-  threat: [Danger, 4]
+  danger_level: 4
   exits:
     sw: ["the Foothills", path, 0]
     e: "the Temple of Madness"
@@ -68,13 +68,13 @@ locations:
     n: ["the Foothills", road, 1]
     s: ["the Fields", road, 0]
   downriver: >
-    The west branch of the river leads to the corrupt heart of the Würstreich.
+    The West branch of the river leads to the corrupt heart of the Würstreich.
     You can't go any further this way.
 
 - name: "Brüttelburg"
   region: Lowlands
   traits: [Inside, Settlement, Law]
-  threat: [Town, 5]
+  town_level: 5
   exits:
     s: ["the Fields", road, 2]
     w: ["the Fields", road, 0]
@@ -83,7 +83,7 @@ locations:
 - name: "the Holy Order"
   region: Lowlands
   traits: [Inside, Settlement, Law]
-  threat: [Town, 3]
+  town_level: 3
   exits:
     n: ["the Fields", road, 3]
     s: ["the Fields", road, 7]
@@ -91,7 +91,7 @@ locations:
 - name: "the Hunt Lodge"
   region: Lowlands
   traits: [Inside, Woodland, Settlement, Law]
-  threat: [Town, 2]
+  town_level: 2
   exits:
     nw: ["the Witchwood", path, 2]
     ne: ["the Witchwood", path, 3]
@@ -100,7 +100,7 @@ locations:
 - name: "the Graveyard"
   region: Lowlands
   traits: [Inside]
-  threat: [Danger, 4]
+  danger_level: 4
   exits:
     n: ["the Fields", road, 5]
     s: "the Catacombs"
@@ -110,7 +110,7 @@ locations:
 - name: "the Catacombs"
   region: Lowlands
   traits: [Inside]
-  threat: [Danger, 5]
+  danger_level: 5
   exits:
     n: "the Graveyard"
     e: "Ghostgate"
@@ -128,7 +128,7 @@ locations:
 - name: "Witch Hill"
   region: Lowlands
   traits: [Outside, Woodland]
-  threat: [Danger, 5]
+  danger_level: 5
   exits:
     nw: ["the Witchwood", road, 0]
     ne: ["the Witchwood", path, 0]
@@ -161,7 +161,7 @@ locations:
 - name: "the Goblin Fortress"
   region: Badlands
   traits: [Inside, Settlement]
-  threat: [Danger, 5]
+  danger_level: 5
   exits:
     nw: ["the Wasteland", path, 1]
     s: ["the Burning Lakes", path, 0]
@@ -176,7 +176,7 @@ locations:
     n: ["the Burning Lakes", path, 0]
     s: ["the Burning Lakes", path, 2]
   downriver: >
-    The east branch of the river leads to the uncharted lands beyond; a
+    The East branch of the river leads to the uncharted lands beyond; a
     mysterious realm of sorcerer-giants & reptilian beings. You can't go any
     further this way.
 
@@ -193,7 +193,7 @@ locations:
 - name: "Skull Bridge"
   region: Badlands
   traits: [Inside]
-  threat: [Danger, 4]
+  danger_level: 4
   exits:
     s: ["the Wasteland", path, 0]
     se: ["the Wasteland", path, 1]
@@ -202,14 +202,14 @@ locations:
 - name: "the Hell Pit"
   region: Badlands
   traits: [Outside, Perilous]
-  threat: [Danger, 5]
+  danger_level: 5
   exits:
     w: ["the Blasted Heath", path, 2]
 
 - name: "Gutfish Ford"
   region: Wetlands
   traits: [Outside, Settlement, River Port]
-  threat: [Town, 2]
+  town_level: 2
   exits:
     n: ["the Wasteland", road, 4]
     s: ["the Burning Lakes", path, 1]
@@ -220,7 +220,7 @@ locations:
 - name: "the Stone Circle"
   region: Wetlands
   traits: [Outside, Settlement]
-  threat: [Town, 2]
+  town_level: 2
   exits:
     n: ["the Rotting Swamp", path, 2]
     nw: ["the Rotting Swamp", path, 1]
@@ -229,14 +229,14 @@ locations:
 - name: "the Fishmonger Camp"
   region: Wetlands
   traits: [Inside, Settlement, Lake Port]
-  threat: [Danger, 2]
+  danger_level: 2
   exits:
     w: ["the Fields", road, 8]
 
 - name: "the Black Tree"
   region: Wetlands
   traits: [Outside, Woodland]
-  threat: [Danger, 5]
+  danger_level: 5
   exits:
     nw: ["the Rotting Swamp", path, 3]
     ne: ["the Rotting Swamp", path, 4]
@@ -245,7 +245,7 @@ locations:
 - name: "the Sunken Village"
   region: Wetlands
   traits: [Inside]
-  threat: [Danger, 4]
+  danger_level: 4
   exits:
     n: ["the Burning Lakes", path, 2]
     nw: ["the Burning Lakes", path, 1]
@@ -255,7 +255,7 @@ locations:
 - name: "Tower Island"
   region: Wetlands
   traits: [Inside, Lake Port]
-  threat: [Danger, 4]
+  danger_level: 4
 
 - name: "Dusk Falls"
   region: Wetlands
@@ -276,44 +276,44 @@ territories:
 - name: "Slaver's Pass"
   region: Highlands
   traits: [Outside]
-  threat: [Danger, 4]
+  danger_level: 4
 
 - name: "the Foothills"
   region: Highlands
   traits: [Outside]
-  threat: [Danger, 2]
+  danger_level: 2
 
 - name: "the Fields"
   region: Lowlands
   traits: [Outside, Law]
-  threat: [Danger, 2]
+  danger_level: 2
 
 - name: "the Witchwood"
   region: Lowlands
   traits: [Outside, Woodland]
-  threat: [Danger, 4]
+  danger_level: 4
 
 - name: "the Burning Lakes"
   region: Badlands
   traits: [Outside, Perilous]
-  threat: [Danger, 4]
+  danger_level: 4
 
 - name: "the Wasteland"
   region: Badlands
   traits: [Outside]
-  threat: [Danger, 3]
+  danger_level: 3
 
 - name: "the Blasted Heath"
   region: Badlands
   traits: [Outside, Perilous]
-  threat: [Danger, 4]
+  danger_level: 4
 
 - name: "the Rotting Swamp"
   region: Wetlands
   traits: [Outside]
-  threat: [Danger, 4]
+  danger_level: 4
 
 - name: "Tomb Lake"
   region: Wetlands
   traits: [Outside, Lake Port]
-  threat: [Danger, 3]
+  danger_level: 3

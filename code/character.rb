@@ -137,6 +137,10 @@ class Character
     2 * self.con
   end
 
+  def wounds=(value)
+    @statevars['wounds'] = value
+  end
+
   def gp=(value)
     @statevars['gp'] = value
   end

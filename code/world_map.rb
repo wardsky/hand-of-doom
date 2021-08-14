@@ -27,7 +27,7 @@ class WorldMap
 
     def method_missing(m, *args, &block)
       if m.end_with? '?'
-        return self.traits.any? { |trait| "#{trait.downcase.gsub(' ', '_')}?" == m.to_s }
+        self.traits.any? { |trait| "#{trait.downcase.gsub(' ', '_')}?" == m.to_s }
       else
         super
       end
@@ -48,10 +48,43 @@ class WorldMap
     def title
       self.name.sub(/^./) { |c| c.upcase }
     end
+
+    def description
+      [
+        case self.danger_level || self.town_level
+        when 1
+          'a slightly'
+        when 2
+          'a mildly'
+        when 3
+          'a moderately'
+        when 4
+          'a highly'
+        when 5
+          'an intensely'
+        when 6
+          'an extremely'
+        else
+          raise 'Space has no valid danger level or town level'
+        end,
+        self.danger_level ? 'dangeous' : 'prosperous',
+        self.woodland? ? 'woodland' : nil,
+        if self.path? or self.road?
+          'area'
+        elsif self.settlement?
+          'settlement'
+        else
+          'place'
+        end,
+        self.law? ? 'under the watchful eye of the law' : nil,
+        self.metaphysical? ? 'with strange metaphysical properties' : nil,
+        self.perilous? ? 'where peril lurks around every corner' : nil,
+      ].compact.join(' ')
+    end
   end
 
-  class LocationSpace < Space
-    attr_reader :name, :region, :traits, :territory, :threat, :exits, :downriver_locations, :downriver_message
+  class Location < Space
+    attr_reader :name, :region, :traits, :territory, :town_level, :exits, :downriver_locations, :downriver_message
 
     def link(spaces, territories, data)
       @name = data['name']
@@ -59,7 +92,8 @@ class WorldMap
       @traits = data['traits']
       territory_name = data['territory']
       @territory = territory_name && territories[territory_name]
-      @threat = data['threat']
+      @danger_level = data['danger_level']
+      @town_level = data['town_level']
       @exits = {}
       if data['exits']
         data['exits'].each do |dir, location_name|
@@ -75,8 +109,8 @@ class WorldMap
       end
     end
 
-    def threat
-      @territory ? @territory.threat : @threat
+    def danger_level
+      @territory ? @territory.danger_level : @danger_level
     end
 
     def name_relative_to(location)
@@ -88,7 +122,7 @@ class WorldMap
     end
   end
 
-  class ConnectionSpace < Space
+  class Connection < Space
     attr_reader :territory, :exits
 
     def link(locations, territories, designator)
@@ -115,8 +149,12 @@ class WorldMap
       @territory.traits + [@type.capitalize]
     end
 
-    def threat
-      @territory.threat
+    def danger_level
+      @territory.danger_level
+    end
+
+    def town_level
+      nil
     end
 
     def downriver
@@ -143,13 +181,13 @@ class WorldMap
   end
 
   class Territory
-    attr_reader :name, :region, :traits, :threat
+    attr_reader :name, :region, :traits, :danger_level
 
     def initialize(data)
       @name = data['name']
       @region = data['region']
       @traits = data['traits']
-      @threat = data['threat']
+      @danger_level = data['danger_level']
     end
   end
 
@@ -162,11 +200,11 @@ class WorldMap
     connection_designators = []
     data['locations'].each do |location_data|
       location_name = location_data['name']
-      locations << (@spaces[location_name] = LocationSpace.new)
+      locations << (@spaces[location_name] = Location.new)
       if location_data['exits']
         location_data['exits'].values.each do |key|
           next if key.is_a? String or @spaces[key]
-          @spaces[key] = ConnectionSpace.new
+          @spaces[key] = Connection.new
           connection_designators << key
         end
       end
