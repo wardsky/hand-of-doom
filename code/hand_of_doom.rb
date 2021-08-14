@@ -124,7 +124,6 @@ class HandOfDoom < GameRunner
               @game_state.character.fatigued!
             end
           end
-          puts other_space.name.sub(/^./) { |c| c.upcase }
           @game_state.current_space = other_space
           true
         else
@@ -136,6 +135,6 @@ class HandOfDoom < GameRunner
   end
 
   def prompt
-    "[#{@game_state.character.map_stance}]>"
+    "#{@game_state.current_space.name.sub(/^./) { |c| c.upcase }} [#{@game_state.character.map_stance}]> "
   end
 end
