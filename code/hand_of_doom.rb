@@ -23,18 +23,18 @@ class HandOfDoom < GameRunner
     command 'info', 'i' do
       character = @game_state.character
       puts @game_state.character_role
-      puts ''
+      puts '---'
       puts 'AGI %2d %s' % [character.agi, (character.statuses & ['Slimed']).first]
       puts 'CON %2d %s' % [character.con, (character.statuses & ['Poisoned']).first]
       puts 'MAG %2d %s' % [character.mag, (character.statuses & ['Exalted', 'Suppressed']).first]
       puts 'MRL %2d %s' % [character.mrl, (character.statuses & ['Blessed', 'Demoralized']).first]
       puts 'PER %2d %s' % [character.per, (character.statuses & ['Focused', 'Blinded']).first]
       puts 'STR %2d %s' % [character.str, (character.statuses & ['Invigorated', 'Weakened']).first]
-      puts ''
+      puts '---'
       other_statuses = character.statuses & ['Fatigued', 'Detained', 'Infected', 'Stunned']
       unless other_statuses.empty?
         puts other_statuses.join(', ')
-        puts ''
+        puts '---'
       end
       puts '%2d Wounds (%d HP)' % [character.wounds, character.hp]
       puts '%2d GP' % character.gp
@@ -112,11 +112,6 @@ class HandOfDoom < GameRunner
   end
 
   def prompt
-    case @game_state.character.map_stance
-    when 'Bold'
-      'B> '
-    when 'Cautious'
-      'C> '
-    end
+    "[#{@game_state.character.map_stance}]>"
   end
 end
