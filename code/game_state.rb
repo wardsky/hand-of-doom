@@ -3,13 +3,12 @@ require './code/character'
 require './code/roles'
 
 class GameState
-  attr_reader :statevars
-  attr_reader :character
+  attr_reader :statevars, :character, :world_map
 
   def initialize(statevars)
     @statevars = statevars
-    @world_map = WorldMap.load_file('data/world_map.yaml')
     @character = Character.new(@statevars['character_role'], @statevars['character_state'])
+    @world_map = WorldMap.load_file('data/world_map.yaml')
   end
 
   def method_missing(m, *args, &block)
@@ -25,7 +24,7 @@ class GameState
   end
 
   def current_space
-    @world_map.spaces[@statevars['current_space']]
+    @world_map[@statevars['current_space']]
   end
 
   def current_space=(space)

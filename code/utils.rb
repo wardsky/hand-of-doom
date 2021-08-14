@@ -8,7 +8,7 @@ def conjunction_list(elements, conj)
   when 0
     nil
   when 1
-    elements.first
+    elements.first.to_s
   when 2
     "#{elements.first} #{conj} #{elements.last}"
   else

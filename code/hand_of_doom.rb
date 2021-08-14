@@ -4,14 +4,21 @@ require './code/game_runner'
 require './code/game_state'
 require './code/utils'
 
-def option_dialog(options)
-  keys = ('a'..'zz').to_a
-  options.each.with_index do |option, index|
-    puts "#{keys[index]}) #{option}"
+def option_dialog(message, options)
+  selectors = ('a'..'zz').to_a
+  selection = nil
+  option_keys = (options.respond_to? :keys) ? options.keys : options
+  option_values = (options.respond_to? :values) ? options.values : options
+  while selection.nil? do
+    puts message
+    option_keys.each.with_index do |option_key, index|
+      puts "#{selectors[index]}) #{option_key}"
+    end
+    print "? "
+    index = selectors.index(gets.strip)
+    selection = index && option_values[index]
   end
-  print "? "
-  index = keys.index(gets.strip)
-  return index && options[index]
+  return selection
 end
 
 class HandOfDoom < GameRunner
@@ -31,12 +38,7 @@ class HandOfDoom < GameRunner
     super
 
     if @statevars.empty?
-      role = nil
-      until role do
-        puts 'Select your adventurer:'
-        role = option_dialog(ROLES.keys)
-      end
-      @statevars['character_role'] = role
+      @statevars['character_role'] = option_dialog('Select your adventurer:', ROLES.keys)
       @statevars['character_state'] = {}
       @statevars['current_space'] = 'Brüttelburg'
       File.write(savefile, YAML.dump(@statevars))
@@ -84,15 +86,52 @@ class HandOfDoom < GameRunner
         puts "To the #{DIRECTIONS[dir]} is #{other_space.name_relative_to(current_space)}."
       end
       if current_space.river_port?
-        downriver_locations = conjunction_list(current_space.downriver, 'or')
-        puts "There is a river port here. You can travel downriver to #{downriver_locations} for 2 GP."
+        msg = "There is a river port here."
+        msg += " You can travel downriver to #{conjunction_list(current_space.downriver_locations, 'or')} for 2 GP." unless current_space.downriver_locations.empty?
+        puts msg
       end
       if current_space.lake_port?
-        lake_port_spaces = @world_map.spaces.values.select { |space| space.lake_port? and not space == current_space }
-        lake_locations = conjunction_list(lake_port_spaces.map(&:name), 'or')
-        puts "There is a lake port here. You can travel to #{lake_locations}."
+        msg = "There is a lake port here."
+        other_lake_ports = @game_state.world_map.spaces.values.select { |space| space.lake_port? and not space == current_space }
+        msg += " You can travel to #{conjunction_list(other_lake_ports, 'or')}." unless other_lake_ports.empty?
+        puts msg
       end
       false
+    end
+
+    command 'port', 'p' do
+      current_space = @game_state.current_space
+      if current_space.river_port?
+        if current_space.downriver_message
+          puts current_space.downriver_message
+        elsif @game_state.character.gp < 2
+          puts "You can't afford the fare."
+        else
+          @game_state.character.gp -= 2
+          destination = case current_space.downriver_locations.count
+          when 0
+            raise "No downriver locations."
+          when 1
+            current_space.downriver_locations.first
+          else
+            option_dialog('Select your destination:', current_space.downriver_locations.map{ |location| [location.title, location] }.to_h)
+          end
+          @game_state.current_space = destination
+        end
+      elsif current_space.lake_port?
+        other_lake_ports = @game_state.world_map.spaces.values.select { |space| space.lake_port? and not space == current_space }
+        destination = case other_lake_ports.count
+        when 0
+          raise "No other lake port locations."
+        when 1
+          other_lake_ports.first
+        else
+          option_dialog('Select your destination:', other_lake_ports.map{ |location| [location.title, location] }.to_h)
+        end
+        @game_state.current_space = destination
+      else
+        puts 'There is no port here.'
+      end
     end
 
     command 'rest', 'r' do
@@ -135,6 +174,6 @@ class HandOfDoom < GameRunner
   end
 
   def prompt
-    "#{@game_state.current_space.name.sub(/^./) { |c| c.upcase }} [#{@game_state.character.map_stance}]> "
+    "#{@game_state.current_space.title} [#{@game_state.character.map_stance}]> "
   end
 end

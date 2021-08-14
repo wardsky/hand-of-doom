@@ -67,6 +67,9 @@ locations:
   exits:
     n: ["the Foothills", road, 1]
     s: ["the Fields", road, 0]
+  downriver: >
+    The west branch of the river leads to the corrupt heart of the Würstreich.
+    You can't go any further this way.
 
 - name: "Brüttelburg"
   region: Lowlands
@@ -172,6 +175,10 @@ locations:
   exits:
     n: ["the Burning Lakes", path, 0]
     s: ["the Burning Lakes", path, 2]
+  downriver: >
+    The east branch of the river leads to the uncharted lands beyond; a
+    mysterious realm of sorcerer-giants & reptilian beings. You can't go any
+    further this way.
 
 - name: "Last Chance"
   region: Badlands
@@ -208,7 +215,7 @@ locations:
     s: ["the Burning Lakes", path, 1]
     w: ["the Witchwood", path, 0]
   downriver:
-    - "the Crystal Crater"
+    - "Crystal Crater"
 
 - name: "the Stone Circle"
   region: Wetlands

@@ -137,6 +137,18 @@ class Character
     2 * self.con
   end
 
+  def gp=(value)
+    @statevars['gp'] = value
+  end
+
+  def xp=(value)
+    @statevars['gp'] = value
+  end
+
+  def luck=(value)
+    @statevars['gp'] = value
+  end
+
   def slimed!(assert=true)
     if assert
       @statevars['statuses'] |= ['Slimed']

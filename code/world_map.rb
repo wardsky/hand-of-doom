@@ -40,10 +40,18 @@ class WorldMap
         super
       end
     end
+
+    def to_s
+      self.name
+    end
+
+    def title
+      self.name.sub(/^./) { |c| c.upcase }
+    end
   end
 
   class LocationSpace < Space
-    attr_reader :name, :region, :traits, :territory, :threat, :exits, :downriver
+    attr_reader :name, :region, :traits, :territory, :threat, :exits, :downriver_locations, :downriver_message
 
     def link(spaces, territories, data)
       @name = data['name']
@@ -58,7 +66,13 @@ class WorldMap
           @exits[dir] = spaces[location_name]
         end
       end
-      @downriver = data['downriver']
+      if data['downriver'].is_a? Array
+        @downriver_locations = data['downriver'].map { |location_name| spaces[location_name] }
+        @downriver_message = nil
+      else
+        @downriver_locations = []
+        @downriver_message = data['downriver']
+      end
     end
 
     def threat
@@ -120,7 +134,7 @@ class WorldMap
 
     def name_relative_to(location)
       other_location = destination_relative_to(location)
-      "the #{@type} to #{other_location.name}" if other_location
+      "the #{@type} to #{other_location}" if other_location
     end
 
     def preposition
@@ -172,6 +186,10 @@ class WorldMap
     connection_designators.each do |connection_designator|
       @spaces[connection_designator].link(locations, @territories, connection_designator)
     end
+  end
+
+  def [](name)
+    @spaces[name] || @territories[name]
   end
 
   def self.load_file(filename)
