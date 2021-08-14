@@ -11,6 +11,11 @@ class GameRunner
       {}
     end
 
+    command 'help', 'h' do
+      puts "Available commands:"
+      puts @commands.keys
+    end
+
     command 'quit', 'q' do
       puts 'Bye.'
       exit

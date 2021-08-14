@@ -101,13 +101,16 @@ class HandOfDoom < GameRunner
 
     command 'port', 'p' do
       current_space = @game_state.current_space
+      character = @game_state.character
       if current_space.river_port?
-        if current_space.downriver_message
+        if !character.bold?
+          puts "You must be Bold to travel by river."
+        elsif current_space.downriver_message
           puts current_space.downriver_message
-        elsif @game_state.character.gp < 2
+        elsif character.gp < 2
           puts "You can't afford the fare."
         else
-          @game_state.character.gp -= 2
+          character.gp -= 2
           destination = case current_space.downriver_locations.count
           when 0
             raise "No downriver locations."
@@ -119,16 +122,20 @@ class HandOfDoom < GameRunner
           @game_state.current_space = destination
         end
       elsif current_space.lake_port?
-        other_lake_ports = @game_state.world_map.spaces.values.select { |space| space.lake_port? and not space == current_space }
-        destination = case other_lake_ports.count
-        when 0
-          raise "No other lake port locations."
-        when 1
-          other_lake_ports.first
+        if !character.bold?
+          puts "You must be Bold to travel by lake."
         else
-          option_dialog('Select your destination:', other_lake_ports.map{ |location| [location.title, location] }.to_h)
+          other_lake_ports = @game_state.world_map.spaces.values.select { |space| space.lake_port? and not space == current_space }
+          destination = case other_lake_ports.count
+          when 0
+            raise "No other lake port locations."
+          when 1
+            other_lake_ports.first
+          else
+            option_dialog('Select your destination:', other_lake_ports.map{ |location| [location.title, location] }.to_h)
+          end
+          @game_state.current_space = destination
         end
-        @game_state.current_space = destination
       else
         puts 'There is no port here.'
       end
