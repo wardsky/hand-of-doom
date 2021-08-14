@@ -1,3 +1,5 @@
+require 'yaml'
+
 require './code/game_runner'
 require './code/game_state'
 require './code/utils'
@@ -17,6 +19,13 @@ class HandOfDoom < GameRunner
 
   def initialize(savefile)
     super
+
+    if @statevars.empty?
+      @statevars['character_role'] = ROLES.keys.sample
+      @statevars['character_state'] = {}
+      @statevars['current_space'] = 'Brüttelburg'
+      File.write(savefile, YAML.dump(@statevars))
+    end
 
     @game_state = GameState.new(@statevars)
 

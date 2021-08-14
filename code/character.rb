@@ -1,8 +1,7 @@
 require './code/utils'
+require './code/roles'
 
 class Character
-
-  CLASSES = {}
 
   # STATUSES = [
   #   'Slimed',
@@ -21,14 +20,27 @@ class Character
   #   'Stunned',
   # ]
 
-  STARTING_STATEVARS = {
+  DEFAULT_STATEVARS = {
     'statuses' => [],
     'wounds' => 0,
     'map_stance' => 'Bold',
   }
 
-  def initialize(statevars)
+  def initialize(role, statevars)
+    @role = ROLES[role]
     @statevars = statevars
+    if @statevars.empty?
+      @statevars.replace(
+        'statuses' => [],
+        'wounds' => 0,
+        'gp' => @role::STARTING_GP,
+        'xp' => @role::STARTING_XP,
+        'luck' => @role::STARTING_LUCK,
+        'items' => @role::STARTING_ITEMS.clone,
+        'skills' => @role::STARTING_SKILLS.clone,
+        'map_stance' => 'Bold',
+      )
+    end
   end
 
   def method_missing(m, *args, &block)
@@ -50,62 +62,62 @@ class Character
   end
 
   def traits
-    self.class::TRAITS
+    @role::TRAITS
   end
 
   def agi
     if statuses.include? 'Slimed'
-      self.class::AGI - 1
+      @role::AGI - 1
     else
-      self.class::AGI
+      @role::AGI
     end
   end
 
   def con
     if statuses.include? 'Poisoned'
-      self.class::CON - 1
+      @role::CON - 1
     else
-      self.class::CON
+      @role::CON
     end
   end
 
   def mag
     if statuses.include? 'Exalted'
-      self.class::MAG + 1
+      @role::MAG + 1
     elsif statuses.include? 'Suppressed'
-      self.class::MAG - 1
+      @role::MAG - 1
     else
-      self.class::MAG
+      @role::MAG
     end
   end
 
   def mrl
     if statuses.include? 'Blessed'
-      self.class::MRL + 1
+      @role::MRL + 1
     elsif statuses.include? 'Demoralized'
-      self.class::MRL - 1
+      @role::MRL - 1
     else
-      self.class::MRL
+      @role::MRL
     end
   end
 
   def per
     if statuses.include? 'Focused'
-      self.class::PER + 1
+      @role::PER + 1
     elsif statuses.include? 'Blinded'
-      self.class::PER - 1
+      @role::PER - 1
     else
-      self.class::PER
+      @role::PER
     end
   end
 
   def str
     if statuses.include? 'Invigorated'
-      self.class::STR + 1
+      @role::STR + 1
     elsif statuses.include? 'Weakened'
-      self.class::STR - 1
+      @role::STR - 1
     else
-      self.class::STR
+      @role::STR
     end
   end
 
@@ -291,31 +303,4 @@ class Character
   def cautious?
     @statevars['map_stance'] == 'Cautious'
   end
-end
-
-class AngelOfDeath < Character
-
-  Character::CLASSES['Angel of Death'] = self
-
-  TRAITS = %w|Human Rogue Scholar|
-
-  AGI = 8
-  CON = 6
-  MAG = 7
-  MRL = 7
-  PER = 8
-  STR = 6
-
-  STARTING_STATEVARS = Character::STARTING_STATEVARS.merge(
-    'gp' => 8,
-    'xp' => 6,
-    'luck' => 2,
-    'items' => [
-      'Flash Bomb',
-      'Light Pistol',
-    ],
-    'skills' => [
-      'Alchemy',
-    ],
-  )
 end

@@ -1,24 +1,19 @@
 require './code/world_map'
 require './code/character'
+require './code/roles'
 
 class GameState
   attr_reader :statevars
+  attr_reader :character
 
   def initialize(statevars)
-
     @statevars = statevars
     @world_map = WorldMap.load_file('data/world_map.yaml')
-
-    if @statevars.empty?
-      character_role = 'Angel of Death'
-      @statevars['character_role'] = character_role
-      @statevars['character'] = Character::CLASSES[character_role]::STARTING_STATEVARS
-      @statevars['current_space'] = 'Brüttelburg'
-    end
+    @character = Character.new(@statevars['character_role'], @statevars['character_state'])
   end
 
   def method_missing(m, *args, &block)
-    if statevars.key? m.to_s
+    if @statevars.key? m.to_s
       @statevars[m.to_s]
     else
       super
@@ -27,14 +22,6 @@ class GameState
 
   def respond_to?(m)
     (@statevars.key? m.to_s) || super
-  end
-
-  def character
-    Character::CLASSES[@statevars['character_role']].new(@statevars['character'])
-  end
-
-  def set_character_status(status)
-    @statevars['character']['statuses'] << status unless @statevars['character']['statuses'].include? status
   end
 
   def current_space
