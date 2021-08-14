@@ -4,6 +4,16 @@ require './code/game_runner'
 require './code/game_state'
 require './code/utils'
 
+def option_dialog(options)
+  keys = ('a'..'zz').to_a
+  options.each.with_index do |option, index|
+    puts "#{keys[index]}) #{option}"
+  end
+  print "? "
+  index = keys.index(gets.strip)
+  return index && options[index]
+end
+
 class HandOfDoom < GameRunner
 
   DIRECTIONS = {
@@ -21,7 +31,12 @@ class HandOfDoom < GameRunner
     super
 
     if @statevars.empty?
-      @statevars['character_role'] = ROLES.keys.sample
+      role = nil
+      until role do
+        puts 'Select your adventurer:'
+        role = option_dialog(ROLES.keys)
+      end
+      @statevars['character_role'] = role
       @statevars['character_state'] = {}
       @statevars['current_space'] = 'Brüttelburg'
       File.write(savefile, YAML.dump(@statevars))
