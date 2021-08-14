@@ -1,4 +1,4 @@
-class Game
+class GameRunner
 
   def initialize(savefile)
     @commands = {}

@@ -1,21 +1,31 @@
 require 'yaml'
 
-class WorldMap
+def opposite_dir(dir)
+  case dir
+  when 'n'
+    's'
+  when 'nw'
+    'se'
+  when 'ne'
+    'sw'
+  when 's'
+    'n'
+  when 'sw'
+    'ne'
+  when 'se'
+    'nw'
+  when 'w'
+    'e'
+  when 'e'
+    'w'
+  end
+end
 
-  DIRECTIONS = {
-    'n'  => { name: 'north', opposite: 's' },
-    'nw' => { name: 'northwest', opposite: 'se'},
-    'ne' => { name: 'northeast', opposite: 'sw'},
-    's'  => { name: 'south', opposite: 'n' },
-    'sw' => { name: 'southwest', opposite: 'ne'},
-    'se' => { name: 'southeast', opposite: 'nw'},
-    'w'  => { name: 'west', opposite: 'e' },
-    'e'  => { name: 'east', opposite: 'w' },
-  }
+class WorldMap
 
   class Space
 
-    def method_missing(m)
+    def method_missing(m, *args, &block)
       if m.end_with? '?'
         return self.traits.any? { |trait| "#{trait.downcase.gsub(' ', '_')}?" == m.to_s }
       else
@@ -74,8 +84,7 @@ class WorldMap
       @exits = {}
       locations.each do |location|
         location.exits.each do |dir, other_space|
-          opposite_dir = DIRECTIONS[dir][:opposite]
-          @exits[opposite_dir] = location if other_space === self
+          @exits[opposite_dir(dir)] = location if other_space === self
         end
       end
     end
