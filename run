@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require './code/hand_of_doom'
+require './code/game_runner'
 
-HandOfDoom.new('savefile.yaml').start
+GameRunner.new('savefile.yaml').start
