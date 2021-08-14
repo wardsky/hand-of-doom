@@ -35,9 +35,12 @@ class HandOfDoom < GameRunner
   }
 
   def initialize(savefile)
-    super
 
-    if @statevars.empty?
+    @commands = {}
+    @savefile = savefile
+    @statevars = begin
+      YAML.load_file(savefile)
+    rescue Errno::ENOENT
       @statevars['character_role'] = option_dialog('Select your adventurer:', ROLES.keys)
       @statevars['character_state'] = {}
       @statevars['current_space'] = 'Brüttelburg'
