@@ -145,17 +145,21 @@ class GameRunner
 
     command 'rest', 'r' do
       character = @game_state.character
-      test_result = character.test_attr(:mrl)
-      recoverable_wounds = character.test_attr(:mrl) ? (character.mrl.to_f / 2).ceil : character.mrl
-      wounds_to_recover = [character.wounds, recoverable_wounds].min
-      if wounds_to_recover > 0
+      if character.wounds > 0
         if @game_state.current_space.perilous?
           recovery_msg = "are on the lookout for peril and do not recover any wounds"
-          conj = ', but '
+          conj = ", but "
         else
-          recovery_msg = "recover #{wounds_to_recover} wounds"
-          conj = ' and '
-          character.wounds -= wounds_to_recover
+          recoverable_wounds = character.test_attr(:mrl) ? (character.mrl.to_f / 2).ceil : character.mrl
+          wounds_to_recover = [character.wounds, recoverable_wounds].min
+          if wounds_to_recover > 0
+            recovery_msg = "recover #{wounds_to_recover} wounds"
+            conj = " and "
+            character.wounds -= wounds_to_recover
+          else
+            recovery_msg = "do not recover any wounds"
+            conj = ", but "
+          end
         end
       else
         recovery_msg = nil
