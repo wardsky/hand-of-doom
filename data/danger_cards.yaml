@@ -1,0 +1,328 @@
+bruttelburg:
+  text: >
+    Filthy vermin & worse infest the back streets & sewers of the cult-ridden
+    decaying fortress city of
+  space: "Brüttelburg"
+  law: true
+  value: 1
+  encounter: true
+  monsters: [1, 2, 3, 4]
+
+the_holy_order:
+  text: >
+    Pilgrims have been vanishing & the dead go missing from the vast crypts
+    dug beneath
+  space: "the Holy Order"
+  value: { if: Inside, then: 2, else: 3 }
+  encounter: true
+  monsters: [2, 3, 4, 5]
+
+the_hunt_lodge:
+  text: >
+    Creeping things lurk in the dark woodland surrounding
+  space: "the Hunt Lodge"
+  law: true
+  value: 4
+  monsters: [2, 4, 5, 6]
+
+the_graveyard:
+  text: >
+    Carrion-feeding vermin & depraved lunatic cults infest
+  space: "the Graveyard"
+  law: true
+  value: 6
+  monsters: [0, 1, 2, 3]
+  epic_monsters: [1, 1, 1, 1]
+
+the_catacombs:
+  text: >
+    Cults of death practice necromantic rites & dead things hunt the living who
+    dare enter
+  space: "the Catacombs"
+  value: 5
+  encounter: true
+  monsters: [0, 0, 1, 2]
+  epic_monsters: [1, 1, 1, 1]
+
+the_fields:
+  text: >
+    Horrible things lurk amongst the crops, waiting for travellers to set upon
+    & devour amongst
+  territory: "the Fields"
+  space: "the Crossroads"
+  value: { if: Inside, then: 1, else: 2 }
+  encounter: true
+  monsters: [2, 3, 4, 5]
+
+witch_hill:
+  text: >
+    They say by moonlight you can see spectral witches dancing & cackling in
+    the ghostly flames high atop haunted
+  space: "Witch Hill"
+  law: true
+  value: 5
+  encounter: false
+  monsters: [2, 4, 5, 6]
+
+the_witchwood:
+  text: >
+    Heretical cults meet in secret to conduct blasphemous rites amongst the
+    moss-covered branches of
+  territory: "the Witchwood"
+  space: "East Bridge"
+  value: 4
+  encounter: true
+  monsters: [2, 3, 4, 5]
+
+the_bandit_camp:
+  text: >
+    Dangerous degenerates driven to desperate deeds swear blood oaths to their
+    brigand brothers in the smoke-filled tents of
+  space: "the Bandit Camp"
+  value: 2
+  encounter: true
+  monsters: [1, 2, 3, 4]
+
+pigskin_port:
+  text: >
+    Lawlessness, banditry & nightmarish visions plague the populace of
+    once-prosperous
+  space: "Pigskin Port"
+  value: 1
+  encounter: true
+  monsters: [1, 1, 2, 3]
+
+the_watchtower:
+  text: >
+    Bandits & their unnatural allies continuously battle for control of
+  space: "the Watchtower"
+  law: true
+  value: 3
+  encounter: true
+  monsters: [1, 2, 3, 4]
+
+the_temple_of_madness:
+  text: >
+    Obscene mockeries of nature & reality gather within the horrific
+    skull-edifice called
+  space: "the Temple of Madness"
+  value: { if: Metaphysical, then: 2, else: 3 }
+  encounter: true
+  monsters: [1, 2, 3, 4]
+
+the_tunnel_of_terror:
+  text: >
+    Surreal horrors beyond comprehension whisper obscene curses within the eery
+    echoing chambers of
+  space: "the Tunnel of Terror"
+  value: { if: Explored, then: 5, else: 4 }
+  encounter: true
+  monsters: [2, 4, 5, 6]
+
+slavers_pass:
+  text: >
+    Troupes of gibbering weirds join the bandits whose outposts riddle the
+    wind-blasted peaks of
+  territory: "Slaver's Pass"
+  space: ["Slaver's Pass", path, 0]
+  law: true
+  value: 4
+  monsters: [2, 3, 4, 5]
+
+the_foothills:
+  text: >
+    Robbers, mutants & worse harass travellers on the windblown Highland roads
+    of
+  territory: "the Foothills"
+  space: "the Windmill"
+  value: { if: Inside, then: 5, else: 6 }
+  encounter: true
+  monsters: [2, 4, 6, 2]
+  epic_monsters: [0, 0, 0, 1]
+
+the_goblin_fortress:
+  text: >
+    Stunted, vile creatures arm themselves & muster for war in the filthy stone
+    halls of
+  space: "the Goblin Fortress"
+  law: true
+  value: 6
+  monsters: [0, 1, 2, 3]
+  epic_monsters: [1, 1, 1, 1]
+
+the_burning_lakes:
+  text: >
+    Goblin witches chant & call forth noxious horrors bubbling up from
+  territory: "the Burning Lakes"
+  space: "Crystal Crater"
+  encounter: true
+  monsters: [1, 2, 3, 4]
+
+the_wasteland:
+  text: >
+    Goblin warbands hunt for slaves & plunder, their warhorses resounding
+    across
+  territory: "the Wasteland"
+  space: "Last Chance"
+  value: 1
+  encounter: true
+  monsters: [1, 2, 3, 4]
+
+skull_bridge:
+  text: >
+    Fiends crawl forth from the unknown depths of the vast hellish chasm
+    spanned only by the ghoulish
+  space: "Skull Bridge"
+  value: 4
+  encounter: true
+  monsters: [2, 3, 4, 5]
+
+the_blasted_heath:
+  text: >
+    Clouds of ash are seen on the horizon, kicked up by hordes of daemons
+    marching across
+  territory: "the Blasted Heath"
+  space: ["the Blasted Heath", path, 0]
+  value: { if: Inside, then: 1, else: 2 }
+  encounter: true
+  monsters: [2, 3, 4, 5]
+
+the_hell_pit:
+  text: >
+    Infernal daemons bent on conquest march to battle from out of the
+    unfathomable depths of
+  space: "the Hell Pit"
+  value: { if: Inside, then: 4, else: 5 }
+  encounter: true
+  monsters: [2, 4, 5, 2]
+  epic_monsters: [0, 0, 0, 1]
+
+gutfish_ford:
+  text: >
+    Broken fishing nets, missing children & strange webbed prints in the mud
+    panic the remote community at
+  space: "Gutfish Ford"
+  law: true
+  value: 3
+  monsters: [2, 3, 4, 5]
+
+stone_circle:
+  text: >
+    Horrid swamp creatures raid & vandalize the sacred megaliths at
+  space: "the Stone Circle"
+  value: 1
+  encounter: true
+  monsters: [1, 1, 2, 3]
+
+the_fishmonger_camp:
+  text: >
+    The strange & foul-smelling fishmongers whisper heretical schemes in soggy
+    hidden cellars below
+  space: "the Fishmonger Camp"
+  law: true
+  value: 1
+  monsters: [1, 1, 2, 3]
+
+the_rotting_swamp:
+  text: >
+    Eerie howls of stalking beasts echo through the endless gloom of
+  territory: "the Rotting Swamp"
+  space: "Dusk Falls"
+  value: { if: Fungal, then: 5, else: 6 }
+  encounter: true
+  monsters: [3, 4, 5, 6]
+
+the_black_tree:
+  text: >
+    Vile half-human things worship & give sacrifice below the ancient twisted
+    branches of
+  space: "the Black Tree"
+  value: { if: Woodland, then: 3, else: 4 }
+  encounter: true
+  monsters: [2, 3, 5, 6]
+
+the_sunken_village:
+  text: >
+    The people of the Swamp live in fear of the fishoid freaks who make their
+    lair in
+  space: "the Sunken Village"
+  value: 3
+  encounter: true
+  monsters: [2, 3, 4, 5]
+
+tower_island:
+  text: >
+    Hulking inhuman shapes are spotted shambling across the shore of
+  space: "Tower Island"
+  law: true
+  value: 2
+  monsters: [1, 1, 2, 3]
+
+tomb_lake:
+  text: >
+    Slimy things claw their way from black depths onto the shores of
+  territory: "Tomb Lake"
+  space: "Ghostgate"
+  value: 5
+  encounter: true
+  monsters: [2, 4, 5, 6]
+
+reshuffle_0:
+  text: >
+    You feel a chill run down your spine.
+  value: 1
+  encounter: true
+  monsters: [1, 2, 3, 4]
+  reshuffle: true
+
+reshuffle_1:
+  text: >
+    The air feels thick & your hair stands on end... some devilry is afoot!
+  value: 5
+  encounter: true
+  monsters: [0, 1, 1, 2]
+  epic_monsters: [1, 1, 1, 1]
+  reshuffle: true
+
+reshuffle_3:
+  text: >
+    You have an uneasy feeling, like something horrible is about to happen.
+  value: { if: Perilous, then: 5, else: 6 }
+  encounter: true
+  monsters: [1, 2, 3, 4]
+  epic_monsters: [1, 1, 1, 1]
+  reshuffle: true
+
+current_space_0:
+  text: >
+    You can't shake the feeling that you're being watched by something in
+  space: "your current space"
+  value: { if: Settlement, then: 2, else: 3 }
+  encounter: true
+  monsters: [2, 3, 4, 5]
+
+current_space_1:
+  text: >
+    You glance over your shoulder, certain that you're being followed through
+  space: "your current space"
+  value: { if: Explored, then: 4, else: 3 }
+  encounter: true
+  monsters: [2, 3, 5, 6]
+
+current_space_2:
+  text: >
+    You've attracted the attention of an unmistakable malignant force in
+  space: "your current space"
+  value: { if: Metaphysical, then: 4, else: 6 }
+  encounter: true
+  monsters: [0, 1, 2, 3]
+  epic_monsters: [1, 1, 1, 1]
+
+voidgate_spaces:
+  text: >
+    The mystical energies of the Void flow & herald the approach of malevolent
+    invaders from beyond.
+  space: "each space with a Voidgate"
+  value: { if: Voidgate, then: 1, else: 3 }
+  encounter: true
+  monsters: [2, 3, 4, 5]

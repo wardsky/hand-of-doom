@@ -126,6 +126,8 @@ class GameRunner
           unless destination == :unchanged
             character.gp -= 2
             @game_state.current_space = destination
+            exec_danger_phase
+            true
           end
         end
       elsif current_space.lake_port?
@@ -144,6 +146,8 @@ class GameRunner
           end
           unless destination == :unchanged
             @game_state.current_space = destination
+            exec_danger_phase
+            true
           end
         end
       else
@@ -185,6 +189,7 @@ class GameRunner
       elsif statuses_msg
         puts "You #{statuses_msg}."
       end
+      exec_danger_phase
       true
     end
 
@@ -203,7 +208,10 @@ class GameRunner
           end
           if other_space.metaphysical? and character.statuses.empty?
             puts "Strange energies emanate from this direction & prevent you from going any further."
-            @game_state.current_space = fallback_space if fallback_space
+            if fallback_space
+              @game_state.current_space = fallback_space
+              exec_danger_phase
+            end
           else
             @game_state.current_space = other_space
             if may_become_fatigued
@@ -212,6 +220,7 @@ class GameRunner
                 @game_state.character.fatigued!
               end
             end
+            exec_danger_phase
           end
           true
         else
@@ -272,5 +281,90 @@ class GameRunner
 
   def prompt
     "#{@game_state.current_space.title} [#{@game_state.character.map_stance}]> "
+  end
+
+  def exec_danger_phase
+    danger_card = @game_state.danger_deck.draw_card
+    if danger_card['reshuffle']
+      puts "(#{danger_card['text'].strip})"
+      @game_state.danger_deck.reshuffle!
+    else
+      case danger_card['space']
+      when 'your current space'
+        affected_zone = @game_state.current_space.zone
+        puts "(#{danger_card['text'].strip} #{affected_zone}.)"
+        increment_danger_level(affected_zone, @game_state.current_space)
+      when 'each space with a Voidgate'
+        puts "(#{danger_card['text'].strip})"
+        @game_state.world_map.spaces.values.each do |space|
+          if space.voidgate?
+            affected_zone = space.zone
+            increment_danger_level(affected_zone, nil)
+          end
+        end
+      else
+        puts "(#{danger_card['text'].strip} #{danger_card['territory'] || danger_card['space']}.)"
+        affected_zone = @game_state.world_map[danger_card['territory'] || danger_card['space']]
+        affected_space = @game_state.world_map[danger_card['space']]
+        increment_danger_level(affected_zone, affected_space)
+      end
+    end
+    test_danger_card_value(danger_card)
+  end
+
+  def increment_danger_level(affected_zone, affected_space)
+    if affected_zone.danger_level
+      if affected_zone.danger_level < 6
+        affected_zone.danger_level += 1
+        puts "<<#{affected_zone.title} is now at danger level #{affected_zone.danger_level}>>"
+      elsif affected_space
+        puts "<<The Hand of Doom appears at #{affected_space}!>>"
+      else
+        puts "<<Nothing happens...>>"
+      end
+    elsif affected_zone.town_level
+      if affected_zone.town_level > 1
+        affected_zone.town_level -= 1
+        puts "<<#{affected_zone.title} is now at town level #{affected_zone.town_level}>>"
+      else
+        affected_zone.town_level = nil
+        affected_zone.danger_level = 1
+        puts "<<#{affected_zone.title} is now dangerous!>>"
+      end
+    end
+  end
+
+  def test_danger_card_value(danger_card)
+    current_space = @game_state.current_space
+    value = if danger_card['value'].is_a? Integer
+      danger_card['value']
+    elsif danger_card['value'].is_a? Hash
+      if current_space.traits.include? danger_card['value']['if']
+        danger_card['value']['then']
+      else
+        danger_card['value']['else']
+      end
+    end
+    if danger_card['law'] and current_space.law?
+      if @game_state.world_map.bounty_level >= value
+        if danger_card['encounter']
+          puts "<<#{@game_state.current_space.region} encounter triggered>>"
+        end
+        puts "<<#{danger_card['monsters'].first} Law monsters appear>>"
+        if danger_card['epic_monsters']
+          puts "<<#{danger_card['epic_monsters'].first} Law epic monster appears>>"
+        end
+      end
+    else
+      if current_space.danger_level and current_space.danger_level >= value
+        if danger_card['encounter']
+          puts "<<#{@game_state.current_space.region} encounter triggered>>"
+        end
+        puts "<<#{danger_card['monsters'].first} #{@game_state.current_space.region} monsters appear>>"
+        if danger_card['epic_monsters']
+          puts "<<#{danger_card['epic_monsters'].first} #{@game_state.current_space.region} epic monster appears>>"
+        end
+      end
+    end
   end
 end

@@ -119,18 +119,22 @@ class Character
   end
 
   def wounds=(value)
+    raise "Cannot have negative Wounds" unless value >= 0
     @statevars['wounds'] = value
   end
 
   def gp=(value)
+    raise "Cannot have negative GP" unless value >= 0
     @statevars['gp'] = value
   end
 
   def xp=(value)
+    raise "Cannot have negative XP" unless value >= 0
     @statevars['gp'] = value
   end
 
   def luck=(value)
+    raise "Cannot have negative Luck" unless value >= 0
     @statevars['gp'] = value
   end
 

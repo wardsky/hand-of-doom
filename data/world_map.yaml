@@ -197,14 +197,14 @@ locations:
   exits:
     s: ["the Wasteland", path, 0]
     se: ["the Wasteland", path, 1]
-    e: ["the Blasted Heath", path, 2]
+    e: ["the Blasted Heath", path, 0]
 
 - name: "the Hell Pit"
   region: Badlands
   traits: [Outside, Perilous]
   danger_level: 5
   exits:
-    w: ["the Blasted Heath", path, 2]
+    w: ["the Blasted Heath", path, 0]
 
 - name: "Gutfish Ford"
   region: Wetlands

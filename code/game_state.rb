@@ -1,11 +1,13 @@
-require './code/world_map'
 require './code/character'
+require './code/world_map'
+require './code/danger_deck'
 require './code/roles'
 
 class GameState
-  attr_reader :statevars, :character, :world_map
+  attr_reader :statevars, :character, :world_map, :danger_deck
 
   WORLD_MAP_FILENAME = 'data/world_map.yaml'
+  DANGER_CARDS_FILENAME = 'data/danger_cards.yaml'
 
   def initialize(statevars)
 
@@ -23,6 +25,13 @@ class GameState
     else
       @world_map = WorldMap.new(WORLD_MAP_FILENAME)
       @statevars['world_state'] = @world_map.statevars
+    end
+
+    if @statevars['danger_deck']
+      @danger_deck = DangerDeck.new(DANGER_CARDS_FILENAME, @statevars['danger_deck'])
+    else
+      @danger_deck = DangerDeck.new(DANGER_CARDS_FILENAME)
+      @statevars['danger_deck'] = @danger_deck.statevars
     end
   end
 

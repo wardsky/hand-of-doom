@@ -67,7 +67,7 @@ class WorldMap
         else
           raise 'Space has no valid danger level or town level'
         end,
-        self.danger_level ? 'dangeous' : 'prosperous',
+        self.danger_level ? 'dangerous' : 'prosperous',
         self.woodland? ? 'woodland' : nil,
         if self.path? or self.road?
           'area'
@@ -122,7 +122,7 @@ class WorldMap
 
     def danger_level=(value)
       raise "Cannot set danger level on territory location" if @territory
-      raise "Invalid danger level '#{value}'." unless (1..6).include? value
+      raise "Invalid danger level '#{value}'." unless value.nil? or ((1..6).include? value)
       @statevars['danger_level'] = value
     end
 
@@ -131,8 +131,12 @@ class WorldMap
     end
 
     def town_level=(value)
-      raise "Invalid town level '#{value}'." unless (1..6).include? value
+      raise "Invalid town level '#{value}'." unless value.nil? or ((1..6).include? value)
       @statevars['town_level'] = value
+    end
+
+    def zone
+      @territory || self
     end
 
     def name_relative_to(location)
@@ -183,6 +187,10 @@ class WorldMap
       []
     end
 
+    def zone
+      @territory
+    end
+
     def destination_relative_to(location)
       case location
       when @exits.values.first
@@ -219,6 +227,14 @@ class WorldMap
     def danger_level=(value)
       raise "Invalid danger level '#{value}'." unless (1..6).include? value
       @statevars['danger_level'] = value
+    end
+
+    def to_s
+      self.name
+    end
+
+    def title
+      self.name.sub(/^./) { |c| c.upcase }
     end
   end
 
@@ -267,8 +283,18 @@ class WorldMap
     @spaces[name] || @territories[name]
   end
 
+  def bounty_level
+    @statevars['bounty_level']
+  end
+
+  def bounty_level=(value)
+    raise "Invalid bounty level '#{value}'." unless (1..6).include? value
+    @statevars['bounty_level'] = value
+  end
+
   def initial_state(data)
     return {
+      'bounty_level' => 3,
       'locations' => data['locations'].map do |location|
         {
           'name' => location['name'],
