@@ -114,16 +114,19 @@ class GameRunner
         elsif character.gp < 2
           puts "You can't afford the fare."
         else
-          character.gp -= 2
           destination = case current_space.downriver_locations.count
           when 0
             raise "No downriver locations."
           when 1
             current_space.downriver_locations.first
           else
-            option_dialog('Select your destination:', current_space.downriver_locations.map{ |location| [location.title, location] }.to_h)
+            destination_options = current_space.downriver_locations.map{ |location| [location.title, location] }.to_h
+            option_dialog('Select your destination:', destination_options.merge('Stay at current location' => :unchanged))
           end
-          @game_state.current_space = destination
+          unless destination == :unchanged
+            character.gp -= 2
+            @game_state.current_space = destination
+          end
         end
       elsif current_space.lake_port?
         if !character.bold?
@@ -136,9 +139,12 @@ class GameRunner
           when 1
             other_lake_ports.first
           else
-            option_dialog('Select your destination:', other_lake_ports.map{ |location| [location.title, location] }.to_h)
+            destination_options = other_lake_ports.map{ |location| [location.title, location] }.to_h
+            option_dialog('Select your destination:', destination_options.merge('Stay at current location' => :unchanged))
           end
-          @game_state.current_space = destination
+          unless destination == :unchanged
+            @game_state.current_space = destination
+          end
         end
       else
         puts 'There is no port here.'
