@@ -5,10 +5,25 @@ require './code/roles'
 class GameState
   attr_reader :statevars, :character, :world_map
 
+  WORLD_MAP_FILENAME = 'data/world_map.yaml'
+
   def initialize(statevars)
+
     @statevars = statevars
-    @character = Character.new(@statevars['character_role'], @statevars['character_state'])
-    @world_map = WorldMap.load_file('data/world_map.yaml')
+
+    if @statevars['character_state']
+      @character = Character.new(@statevars['character_role'], @statevars['character_state'])
+    else
+      @character = Character.new(character_role)
+      @statevars['character_state'] = @character.statevars
+    end
+
+    if @statevars['world_state']
+      @world_map = WorldMap.new(WORLD_MAP_FILENAME, @statevars['world_state'])
+    else
+      @world_map = WorldMap.new(WORLD_MAP_FILENAME)
+      @statevars['world_state'] = @world_map.statevars
+    end
   end
 
   def method_missing(m, *args, &block)

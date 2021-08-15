@@ -2,23 +2,7 @@ require './code/utils'
 require './code/roles'
 
 class Character
-
-  # STATUSES = [
-  #   'Slimed',
-  #   'Poisoned',
-  #   'Exalted',
-  #   'Suppressed',
-  #   'Blessed',
-  #   'Demoralized',
-  #   'Focused',
-  #   'Blinded',
-  #   'Invigorated',
-  #   'Weakened',
-  #   'Fatigued',
-  #   'Detained',
-  #   'Infected',
-  #   'Stunned',
-  # ]
+  attr_reader :statevars
 
   DEFAULT_STATEVARS = {
     'statuses' => [],
@@ -26,21 +10,18 @@ class Character
     'map_stance' => 'Bold',
   }
 
-  def initialize(role, statevars)
+  def initialize(role, statevars=nil)
     @role = ROLES[role]
-    @statevars = statevars
-    if @statevars.empty?
-      @statevars.replace(
-        'statuses' => [],
-        'wounds' => 0,
-        'gp' => @role::STARTING_GP,
-        'xp' => @role::STARTING_XP,
-        'luck' => @role::STARTING_LUCK,
-        'items' => @role::STARTING_ITEMS.clone,
-        'skills' => @role::STARTING_SKILLS.clone,
-        'map_stance' => 'Bold',
-      )
-    end
+    @statevars = statevars || {
+      'statuses' => [],
+      'wounds' => 0,
+      'gp' => @role::STARTING_GP,
+      'xp' => @role::STARTING_XP,
+      'luck' => @role::STARTING_LUCK,
+      'items' => @role::STARTING_ITEMS.clone,
+      'skills' => @role::STARTING_SKILLS.clone,
+      'map_stance' => 'Bold',
+    }
   end
 
   def method_missing(m, *args, &block)

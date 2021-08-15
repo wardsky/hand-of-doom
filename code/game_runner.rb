@@ -2,6 +2,7 @@ require 'yaml'
 
 require './code/game_state'
 require './code/utils'
+require './code/world_map'
 
 def option_dialog(message, options)
   selectors = ('a'..'zz').to_a
@@ -37,16 +38,17 @@ class GameRunner
 
     @commands = {}
     @savefile = savefile
-    @statevars = begin
-      YAML.load_file(savefile)
+    begin
+      @statevars = YAML.load_file(savefile)
+      @game_state = GameState.new(@statevars)
     rescue Errno::ENOENT
-      @statevars['character_role'] = option_dialog('Select your adventurer:', ROLES.keys)
-      @statevars['character_state'] = {}
-      @statevars['current_space'] = 'Brüttelburg'
+      @statevars = {
+        'character_role' => option_dialog('Select your adventurer:', ROLES.keys),
+        'current_space' => 'Brüttelburg',
+      }
+      @game_state = GameState.new(@statevars)
       File.write(savefile, YAML.dump(@statevars))
     end
-
-    @game_state = GameState.new(@statevars)
 
     command 'info', 'i' do
       character = @game_state.character
